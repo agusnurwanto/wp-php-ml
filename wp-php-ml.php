@@ -36,6 +36,34 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'WP_PHP_ML_VERSION', '1.0.0' );
+define( 'PHP_ML_APIKEY', '_crb_apikey_php_ml' );
+define( 'PHP_ML_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PHP_ML_PLUGIN_PATH', plugin_dir_path(__FILE__) );
+
+// ============== https://carbonfields.net/ ================
+if(!defined('Carbon_Fields_Plugin\PLUGIN_FILE')){
+    define( 'Carbon_Fields_Plugin\PLUGIN_FILE', __FILE__ );
+
+    define( 'Carbon_Fields_Plugin\RELATIVE_PLUGIN_FILE', basename( dirname( \Carbon_Fields_Plugin\PLUGIN_FILE ) ) . '/' . basename( \Carbon_Fields_Plugin\PLUGIN_FILE ) );
+}
+
+add_action( 'after_setup_theme', 'php_ml_fields_boot_plugin' );
+if(!function_exists('php_ml_fields_boot_plugin')){
+    function php_ml_fields_boot_plugin() {
+        if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+            require( __DIR__ . '/vendor/autoload.php' );
+        }
+		if(!function_exists('carbon_fields_boot_plugin')){
+	        \Carbon_Fields\Carbon_Fields::boot();
+
+	        if ( is_admin() ) {
+	            \Carbon_Fields_Plugin\Libraries\Plugin_Update_Warning\Plugin_Update_Warning::boot();
+	        }
+	    }
+    }
+}
+// copy folder vendor & core
+// ============== https://carbonfields.net/ ================
 
 /**
  * The code that runs during plugin activation.

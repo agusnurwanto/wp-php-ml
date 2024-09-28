@@ -3,7 +3,7 @@
         'name' => 'htmlburger/carbon-fields-plugin',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ab0255816ffd97f5cae1695496f50222c5956d5e',
+        'reference' => '6b6214782d9fad39dd1d3c8f5d5892572c5ee40e',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'composer/installers' => array(
-            'pretty_version' => 'v1.9.0',
-            'version' => '1.9.0.0',
-            'reference' => 'b93bcf0fa1fccb0b7d176b0967d969691cd74cca',
+            'pretty_version' => 'v1.12.0',
+            'version' => '1.12.0.0',
+            'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
             'type' => 'composer-plugin',
             'install_path' => __DIR__ . '/./installers',
             'aliases' => array(),
@@ -31,7 +31,7 @@
         'htmlburger/carbon-fields-plugin' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ab0255816ffd97f5cae1695496f50222c5956d5e',
+            'reference' => '6b6214782d9fad39dd1d3c8f5d5892572c5ee40e',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -20,6 +20,10 @@
  * @subpackage Wp_Php_Ml/admin
  * @author     Agus Nurwanto <agusnurwantomuslim@gmail.com>
  */
+
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
+
 class Wp_Php_Ml_Admin {
 
 	/**
@@ -40,6 +44,8 @@ class Wp_Php_Ml_Admin {
 	 */
 	private $version;
 
+	private $functions;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -47,10 +53,11 @@ class Wp_Php_Ml_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $functions ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->functions = $functions;
 
 	}
 
@@ -100,4 +107,31 @@ class Wp_Php_Ml_Admin {
 
 	}
 
+	public function crb_attach_php_ml_options()
+	{
+		global $wpdb;
+
+		$llm = $this->functions->generatePage(array(
+			'nama_page' => 'Halaman Large Language Model (LLM)',
+			'content' => '[halaman_llm]',
+			'show_header' => 1,
+			'no_key' => 1,
+			'post_status' => 'private'
+		));
+		$halaman_llm = '<li><a target="_blank" href="' . $llm['url'] . '" class="btn btn-primary">' . $llm['title'] . ' </a></li>';
+
+		$basic_options_container = Container::make('theme_options', __('PHP ML Options'))
+			->set_page_menu_position(3)
+			->add_fields(array(
+				Field::make('html', 'crb_php_ml_halaman_terkait')
+					->set_html('
+					<h4>HALAMAN TERKAIT</h4>
+	            	<ol>
+	            		'.$halaman_llm.'
+	            	</ol>'),
+				Field::make('text', 'crb_apikey_php_ml', 'API KEY')
+					->set_default_value($this->functions->generateRandomString())
+					->set_help_text('Wajib diisi. API KEY digunakan untuk integrasi data.')
+			));
+	}
 }

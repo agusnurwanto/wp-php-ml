@@ -56,6 +56,7 @@ class Wp_Php_Ml {
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
+	protected $functions;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -124,6 +125,13 @@ class Wp_Php_Ml {
 
 		$this->loader = new Wp_Php_Ml_Loader();
 
+		// Functions tambahan
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-wp-php-ml-functions.php';
+
+		$this->functions = new Php_ml_Functions( $this->plugin_name, $this->version );
+
+		$this->loader->add_action('template_redirect', $this->functions, 'allow_access_private_post', 0);
+
 	}
 
 	/**
@@ -152,10 +160,11 @@ class Wp_Php_Ml {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Wp_Php_Ml_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wp_Php_Ml_Admin( $this->get_plugin_name(), $this->get_version(), $this->functions );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action('carbon_fields_register_fields', $plugin_admin, 'crb_attach_php_ml_options');
 
 	}
 
@@ -168,10 +177,11 @@ class Wp_Php_Ml {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Wp_Php_Ml_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wp_Php_Ml_Public( $this->get_plugin_name(), $this->get_version(), $this->functions );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		add_shortcode('halaman_llm', array($plugin_public, 'halaman_llm'));
 
 	}
 
